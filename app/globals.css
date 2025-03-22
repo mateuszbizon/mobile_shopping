@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --primary: #FC9E4F;
+    --dark: #402E32;
+    --red: #C35256;
+    --light: #FFF7EF;
+}
+
+@layer components {
+    .heading1 {
+        @apply text-4xl font-bold text-dark
+    }
+
+    .input {
+        @apply border border-dark py-4 px-6 rounded-lg mb-2 text-dark
+    }
+
+    .input-error {
+        @apply text-red
+    }
+
+    .input-box {
+        @apply mb-6
+    }
+
+    .btn-primary {
+        @apply bg-primary py-4 px-8 rounded-lg disabled:opacity-50
+    }
+
+    .btn-text {
+        @apply text-lg text-center text-dark
+    }
+}
