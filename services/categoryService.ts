@@ -45,10 +45,10 @@ export const createCategory = async (userId: string, name: string) => {
 export const updateCategory = async (categoryId: string, newName: string) => {
     try {
         const updatedCategory = await database.updateDocument(
-        DATABASE_ID,
-        CATEGORIES_ID,
-        categoryId,
-        { name: newName }
+            DATABASE_ID,
+            CATEGORIES_ID,
+            categoryId,
+            { name: newName }
         );
         Alert.alert("Kategoria zedytowana", "Kategoria została zedytowana pomyślnie")
         return updatedCategory;
@@ -56,5 +56,20 @@ export const updateCategory = async (categoryId: string, newName: string) => {
         console.error('Błąd edycji kategorii:', error);
         Alert.alert("Błąd serwera", "Spróbuj ponownie później")
         return null;
+    }
+}
+
+export const deleteCategory = async (categoryId: string) => {
+    try {
+        await database.deleteDocument(
+            DATABASE_ID,
+            CATEGORIES_ID,
+            categoryId
+        );
+        return true;
+    } catch (error) {
+        console.error('Błąd usuwania kategorii:', error);
+        Alert.alert("Błąd serwera", "Spróbuj ponownie później")
+        return false;
     }
 }

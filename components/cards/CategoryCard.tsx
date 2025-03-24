@@ -5,9 +5,10 @@ import { Link } from 'expo-router'
 
 type CategoryCardProps = {
     item: Models.Document
+    confirmDeleteCategory: (category: Models.Document) => void
 }
 
-const CategoryCard = ({ item }: CategoryCardProps) => {
+const CategoryCard = ({ item, confirmDeleteCategory }: CategoryCardProps) => {
     const [optionsShown, setOptionsShown] = useState(false)
 
   return (
@@ -21,9 +22,9 @@ const CategoryCard = ({ item }: CategoryCardProps) => {
                 <Link href={`/categories/update/${item.$id}`} className='bg-primary p-3 rounded-md'>
                     <Text className='text-dark text-lg'>Edytuj</Text>
                 </Link>
-                <Link href={"/"} className='bg-red p-3 rounded-md'>
+                <TouchableOpacity onPress={() => confirmDeleteCategory(item)} className='bg-red p-3 rounded-md'>
                     <Text className='text-white text-lg'>Usuń</Text>
-                </Link>
+                </TouchableOpacity>
             </View>
         )}
     </View>

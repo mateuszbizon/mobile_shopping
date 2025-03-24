@@ -38,8 +38,16 @@
         @apply bg-primary py-4 px-8 rounded-lg disabled:opacity-50
     }
 
+    .btn-delete {
+        @apply bg-red py-4 px-8 rounded-lg disabled:opacity-50
+    }
+
     .btn-text {
         @apply text-lg text-center text-dark
+    }
+
+    .btn-text-white {
+        @apply text-lg text-center text-white
     }
 
     .card {
