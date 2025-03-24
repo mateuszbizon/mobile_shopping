@@ -11,7 +11,7 @@ const CategoryCard = ({ item }: CategoryCardProps) => {
     const [optionsShown, setOptionsShown] = useState(false)
 
   return (
-    <View className="card">
+    <View className="card mb-4">
         <Text className="heading2 mb-4">{item.name}</Text>
         <TouchableOpacity onPress={() => setOptionsShown(prev => !prev)} className={`${optionsShown && "mb-4"}`}>
             <Text className='text-dark text-lg font-medium'>{optionsShown ? "Schowaj opcje" : "Pokaż opcje"}</Text>
