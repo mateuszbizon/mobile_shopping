@@ -33,7 +33,7 @@ const categories = () => {
 
   return (
     <View className='container'>
-        <Link href={"/"} className='btn-primary mb-4'>
+        <Link href={"/categories/create"} className='btn-primary mb-8'>
             <Text className='btn-text'>Dodaj kategorię</Text>
         </Link>
         <Text className="heading1 mb-8">Twoje kategorie</Text>
