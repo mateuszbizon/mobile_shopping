@@ -15,6 +15,17 @@ export const getUserCategories = async (userId: string) => {
     }
 }
 
+export const getCategory = async (categoryId: string) => {
+    try {
+        const response = await database.getDocument(DATABASE_ID, CATEGORIES_ID, categoryId)
+
+        return response || null;
+    } catch (error) {
+        console.error('Błąd pobierania kategorii:', error)
+        return null
+    }
+}
+
 export const createCategory = async (userId: string, name: string) => {
     try {
         const category = await database.createDocument(DATABASE_ID, CATEGORIES_ID, ID.unique(), {
@@ -28,5 +39,22 @@ export const createCategory = async (userId: string, name: string) => {
         console.error('Błąd dodawania kategorii:', error);
         Alert.alert("Błąd serwera", "Spróbuj ponownie później")
         return null
+    }
+}
+
+export const updateCategory = async (categoryId: string, newName: string) => {
+    try {
+        const updatedCategory = await database.updateDocument(
+        DATABASE_ID,
+        CATEGORIES_ID,
+        categoryId,
+        { name: newName }
+        );
+        Alert.alert("Kategoria zedytowana", "Kategoria została zedytowana pomyślnie")
+        return updatedCategory;
+    } catch (error) {
+        console.error('Błąd edycji kategorii:', error);
+        Alert.alert("Błąd serwera", "Spróbuj ponownie później")
+        return null;
     }
 }
