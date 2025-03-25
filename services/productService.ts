@@ -63,12 +63,27 @@ export const updateProduct = async (productId: string, newName: string, category
                 categories: categoryId
             }
         )
-        
+
         Alert.alert("Produkt zedytowany", "Produkt został zedytowany pomyślnie")
         return updatedCategory;
     } catch (error) {
         console.error('Błąd edycji produktu:', error);
         Alert.alert("Błąd serwera", "Spróbuj ponownie później")
         return null;
+    }
+}
+
+export const deleteProduct = async (productId: string) => {
+    try {
+        await database.deleteDocument(
+            DATABASE_ID,
+            PRODUCTS_ID,
+            productId
+        );
+        return true;
+    } catch (error) {
+        console.error('Błąd usuwania produktu:', error);
+        Alert.alert("Błąd serwera", "Spróbuj ponownie później")
+        return false;
     }
 }

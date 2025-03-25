@@ -5,9 +5,10 @@ import { Models } from 'react-native-appwrite'
 
 type ProductCardProps = {
     item: Models.Document
+    confirmDeleteProduct: (product: Models.Document) => void
 }
 
-const ProductCard = ({ item }: ProductCardProps) => {
+const ProductCard = ({ item, confirmDeleteProduct }: ProductCardProps) => {
     const [optionsShown, setOptionsShown] = useState(false)
 
   return (
@@ -22,7 +23,7 @@ const ProductCard = ({ item }: ProductCardProps) => {
                 <Link href={`/products/update/${item.$id}`} className='bg-primary p-3 rounded-md'>
                     <Text className='text-dark text-lg'>Edytuj</Text>
                 </Link>
-                <TouchableOpacity onPress={() => console.log('clicked')} className='bg-red p-3 rounded-md'>
+                <TouchableOpacity onPress={() => confirmDeleteProduct(item)} className='bg-red p-3 rounded-md'>
                     <Text className='text-white text-lg'>Usuń</Text>
                 </TouchableOpacity>
             </View>
