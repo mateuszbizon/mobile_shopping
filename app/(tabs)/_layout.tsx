@@ -6,6 +6,7 @@ const _layout = () => {
     <Tabs>
         <Tabs.Screen name='index' options={{ headerShown: false, title: "Home" }} />
         <Tabs.Screen name='categories' options={{ headerShown: false, title: "Kategorie" }} />
+        <Tabs.Screen name='products' options={{ headerShown: false, title: "Produkty" }} />
     </Tabs>
   )
 }
