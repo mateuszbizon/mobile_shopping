@@ -5,22 +5,14 @@ import { deleteCategory, getUserCategories } from '@/services/categoryService';
 import { Models } from 'react-native-appwrite';
 import { Link, useRouter } from 'expo-router';
 import CategoryCard from '@/components/cards/CategoryCard';
+import EmptyList from '@/components/EmptyList';
 
 const categories = () => {
-    const { user, isLoading } = useAuth();
+    const { user } = useAuth();
     const [categories, setCategories] = useState<Models.Document[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<Models.Document | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
-    const router = useRouter()
-
-    if (isLoading) {
-        return <ActivityIndicator size={"large"} />
-    }
-
-    if (!user) {
-        router.replace('/sign-in');
-        return null;
-    }
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         if (user) {
@@ -29,8 +21,10 @@ const categories = () => {
     }, [user]);
 
     const fetchCategories = async () => {
-        const data = await getUserCategories(user.id);
-        setCategories(data);
+        setIsLoading(true)
+        const data = await getUserCategories(user?.id!);
+        setCategories(data)
+        setIsLoading(false)
     };
 
     const confirmDeleteCategory = (category: Models.Document) => {
@@ -58,13 +52,18 @@ const categories = () => {
             <Text className='btn-text'>Dodaj kategorię</Text>
         </Link>
         <Text className="heading1 mb-8">Twoje kategorie</Text>
-        <FlatList
-            data={categories}
-            keyExtractor={(item) => item.$id}
-            renderItem={({ item }) => (
-                <CategoryCard key={item.$id} item={item} confirmDeleteCategory={confirmDeleteCategory} />
-            )}
-        />
+        {isLoading ? (
+            <ActivityIndicator size={"large"} />
+        ) : (
+            <FlatList
+                data={categories}
+                keyExtractor={(item) => item.$id}
+                renderItem={({ item }) => (
+                    <CategoryCard key={item.$id} item={item} confirmDeleteCategory={confirmDeleteCategory} />
+                )}
+                ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze żadnej kategorii' />}
+            />
+        )}
         <Modal visible={modalVisible} transparent={true} animationType="slide">
             <View className="flex-1 justify-center items-center bg-black/50">
                 <View className="bg-white p-6 rounded-lg w-80">
