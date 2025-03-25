@@ -23,7 +23,7 @@ const products = () => {
 
   return (
     <View className='container'>
-        <Link href={"/"} className='btn-primary mb-8'>
+        <Link href={"/products/create"} className='btn-primary mb-8'>
             <Text className='btn-text'>Dodaj produkt</Text>
         </Link>
         <Text className='heading1 mb-8'>Twoje produkty</Text>
