@@ -19,7 +19,7 @@ const ProductCard = ({ item }: ProductCardProps) => {
         </TouchableOpacity>
         {optionsShown && (
             <View className='flex flex-row items-center gap-3'>
-                <Link href={`/`} className='bg-primary p-3 rounded-md'>
+                <Link href={`/products/update/${item.$id}`} className='bg-primary p-3 rounded-md'>
                     <Text className='text-dark text-lg'>Edytuj</Text>
                 </Link>
                 <TouchableOpacity onPress={() => console.log('clicked')} className='bg-red p-3 rounded-md'>

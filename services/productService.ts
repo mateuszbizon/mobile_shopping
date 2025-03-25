@@ -19,6 +19,17 @@ export const getUserProducts = async (userId: string) => {
     }
 }
 
+export const getProduct = async (productId: string) => {
+    try {
+        const response = await database.getDocument(DATABASE_ID, PRODUCTS_ID, productId)
+
+        return response || null;
+    } catch (error) {
+        console.error('Błąd pobierania kategorii:', error)
+        return null
+    }
+}
+
 export const addProduct = async (userId: string, name: string, categoryId: string) => {
     try {
         const response = await database.createDocument(
@@ -37,6 +48,27 @@ export const addProduct = async (userId: string, name: string, categoryId: strin
     } catch (error) {
         console.error('Błąd dodawania produktu:', error);
         Alert.alert("Bład serwera", "Spróbuj ponownie później")
+        return null;
+    }
+}
+
+export const updateProduct = async (productId: string, newName: string, categoryId: string) => {
+    try {
+        const updatedCategory = await database.updateDocument(
+            DATABASE_ID,
+            PRODUCTS_ID,
+            productId,
+            {
+                name: newName,
+                categories: categoryId
+            }
+        )
+        
+        Alert.alert("Produkt zedytowany", "Produkt został zedytowany pomyślnie")
+        return updatedCategory;
+    } catch (error) {
+        console.error('Błąd edycji produktu:', error);
+        Alert.alert("Błąd serwera", "Spróbuj ponownie później")
         return null;
     }
 }

@@ -7,15 +7,22 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Models } from 'react-native-appwrite'
 import { getUserCategories } from '@/services/categoryService'
 import { Picker } from "@react-native-picker/picker";
-import { addProduct } from '@/services/productService'
+import { addProduct, updateProduct } from '@/services/productService'
 
-const ProductForm = () => {
+type ProductFormProps = {
+    product?: {
+        id: string
+        name: string
+        categoryId: string
+    }
+}
+
+const ProductForm = ({ product }: ProductFormProps) => {
     const { user } = useAuth()
     const { control, handleSubmit, formState: { errors, isSubmitting }, setValue, reset } = useForm<ProductSchema>({
         resolver: zodResolver(productSchema),
         defaultValues: {
-            name: "",
-            categoryId: ""
+            name: product ? product.name : ""
         }
     })
     const [categories, setCategories] = useState<Models.Document[]>([])
@@ -31,17 +38,24 @@ const ProductForm = () => {
         setCategories(data);
 
         if (data.length > 0) {
-            setValue("categoryId", data[0].$id)
+            setValue("categoryId", product ? product.categoryId : data[0].$id)
         }
     }
 
     async function onSubmit(data: ProductSchema) {
         console.log(data)
-        const createdProduct = await addProduct(user?.id!, data.name.toLowerCase(), data.categoryId)
+        
+        if (!product) {
+            const createdProduct = await addProduct(user?.id!, data.name.toLowerCase(), data.categoryId)
 
-        if (createdProduct) {
-            reset()
+            if (createdProduct) {
+                reset()
+            }
+
+            return
         }
+
+        await updateProduct(product.id, data.name.toLowerCase(), data.categoryId)
     }
 
   return (
