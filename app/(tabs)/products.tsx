@@ -1,16 +1,18 @@
-import { View, Text, FlatList, Modal, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, Modal, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Models } from 'react-native-appwrite'
 import { deleteProduct, getUserProducts } from '@/services/productService'
 import { useAuth } from '@/context/AuthContext'
 import ProductCard from '@/components/cards/ProductCard'
 import { Link } from 'expo-router'
+import EmptyList from '@/components/EmptyList'
 
 const products = () => {
     const { user } = useAuth()
     const [products, setProducts] = useState<Models.Document[]>([])
     const [selectedProduct, setSelectedProduct] = useState<Models.Document | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         if (user) {
@@ -19,8 +21,10 @@ const products = () => {
     }, [user])
 
     const fetchProducts = async () => {
+        setIsLoading(true)
         const products = await getUserProducts(user?.id!)
         setProducts(products)
+        setIsLoading(false)
     }
 
     const confirmDeleteProduct = (product: Models.Document) => {
@@ -48,13 +52,18 @@ const products = () => {
             <Text className='btn-text'>Dodaj produkt</Text>
         </Link>
         <Text className='heading1 mb-8'>Twoje produkty</Text>
-        <FlatList
-            data={products}
-            keyExtractor={(item) => item.$id}
-            renderItem={({ item }) => (
-                <ProductCard key={item.$id} item={item} confirmDeleteProduct={confirmDeleteProduct} />
-            )}
-        />
+        {isLoading ? (
+            <ActivityIndicator size={"large"} />
+        ) : (
+            <FlatList
+                data={products}
+                keyExtractor={(item) => item.$id}
+                renderItem={({ item }) => (
+                    <ProductCard key={item.$id} item={item} confirmDeleteProduct={confirmDeleteProduct} />
+                )}
+                ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze żadnego produktu' />}
+            />
+        )}
         <Modal visible={modalVisible} transparent={true} animationType="slide">
             <View className="flex-1 justify-center items-center bg-black/50">
                 <View className="bg-white p-6 rounded-lg w-80">
