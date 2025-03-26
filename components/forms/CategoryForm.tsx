@@ -5,6 +5,8 @@ import { categorySchema, CategorySchema } from '@/lib/validations/categorySchema
 import { createCategory, updateCategory } from '@/services/categoryService'
 import { useAuth } from '@/context/AuthContext'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Link } from 'expo-router'
+import { MaterialIcons } from '@expo/vector-icons'
 
 type CategoryFormProps = {
     category?: {
@@ -58,6 +60,15 @@ const CategoryForm = ({ category }: CategoryFormProps) => {
         <TouchableOpacity onPress={handleSubmit(onSubmit)} disabled={isSubmitting} className='btn-primary'>
             <Text className='btn-text'>{isSubmitting ? "Poczekaj..." : category ? "Edytuj kategorię" : "Dodaj kategorię"}</Text>
         </TouchableOpacity>
+
+        <Link href={"/categories"} className='mt-8'>
+            <Text>
+                <View className='flex flex-row items-center gap-3'>
+                    <MaterialIcons name="arrow-back" size={20} />
+                    <Text className='text-xl font-medium'>Powrót do kategorii</Text>
+                </View>
+            </Text>
+        </Link>
     </View>
   )
 }

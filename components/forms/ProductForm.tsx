@@ -9,6 +9,8 @@ import { getUserCategories } from '@/services/categoryService'
 import { Picker } from "@react-native-picker/picker";
 import { addProduct, updateProduct } from '@/services/productService'
 import EmptyList from '../EmptyList'
+import { Link } from 'expo-router'
+import { MaterialIcons } from '@expo/vector-icons'
 
 type ProductFormProps = {
     product?: {
@@ -111,6 +113,15 @@ const ProductForm = ({ product }: ProductFormProps) => {
         <TouchableOpacity onPress={handleSubmit(onSubmit)} disabled={isSubmitting} className='btn-primary'>
             <Text className='btn-text'>{isSubmitting ? "Poczekaj..." : "Dodaj produkt"}</Text>
         </TouchableOpacity>
+
+        <Link href={"/products"} className='mt-8'>
+            <Text>
+                <View className='flex flex-row items-center gap-3'>
+                    <MaterialIcons name="arrow-back" size={20} />
+                    <Text className='text-xl font-medium'>Powrót do produktów</Text>
+                </View>
+            </Text>
+        </Link>
     </View>
   )
 }
