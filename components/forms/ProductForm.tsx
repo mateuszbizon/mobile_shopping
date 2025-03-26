@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { Controller, useForm } from 'react-hook-form'
@@ -8,6 +8,7 @@ import { Models } from 'react-native-appwrite'
 import { getUserCategories } from '@/services/categoryService'
 import { Picker } from "@react-native-picker/picker";
 import { addProduct, updateProduct } from '@/services/productService'
+import EmptyList from '../EmptyList'
 
 type ProductFormProps = {
     product?: {
@@ -26,6 +27,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
         }
     })
     const [categories, setCategories] = useState<Models.Document[]>([])
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         if (user) {
@@ -34,12 +36,16 @@ const ProductForm = ({ product }: ProductFormProps) => {
     }, [user]);
 
     const fetchCategories = async () => {
+        setIsLoading(true)
+
         const data = await getUserCategories(user?.id!)
         setCategories(data);
 
         if (data.length > 0) {
             setValue("categoryId", product ? product.categoryId : data[0].$id)
         }
+
+        setIsLoading(false)
     }
 
     async function onSubmit(data: ProductSchema) {
@@ -56,6 +62,12 @@ const ProductForm = ({ product }: ProductFormProps) => {
         }
 
         await updateProduct(product.id, data.name.toLowerCase(), data.categoryId)
+    }
+
+    if (isLoading) return <ActivityIndicator size={"large"} />
+
+    if (categories.length == 0 && !isLoading) {
+        return <EmptyList text='Nie dodano jeszcze żadnej kategorii' />
     }
 
   return (
