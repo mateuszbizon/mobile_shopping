@@ -1,13 +1,14 @@
+import PageLoading from "@/components/PageLoading";
 import { useAuth } from "@/context/AuthContext";
 import { Link, useRouter } from "expo-router";
-import { ActivityIndicator, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 export default function Index() {
-    const { user, isLoading } = useAuth()
+    const { user, isLoading: isUserLoading } = useAuth()
     const router = useRouter()
 
-    if (isLoading) {
-        return <ActivityIndicator size={"large"} />
+    if (isUserLoading) {
+        return <PageLoading />
     }
 
     if (!user) {
@@ -16,7 +17,7 @@ export default function Index() {
     }
 
   return (
-    <View>
+    <View className="container">
         <Link href="./sign-in" className="mb-10 p-5 bg-blue-500 text-white text-center mt-10">
             <Text>Sign in</Text>
         </Link>
