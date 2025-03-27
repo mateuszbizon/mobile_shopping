@@ -8,13 +8,20 @@ import EmptyList from './EmptyList'
 type ShoppingListAddProductsProps = {
     modalVisible: boolean
     products: Models.Document[]
+    setProducts: React.Dispatch<React.SetStateAction<Models.Document[]>>
+    setShoppingList: React.Dispatch<React.SetStateAction<Models.Document[]>>
     onClose: () => void
 }
 
-const ShoppingListAddProducts = ({ modalVisible, products, onClose }: ShoppingListAddProductsProps) => {
+const ShoppingListAddProducts = ({ modalVisible, products, onClose, setProducts, setShoppingList }: ShoppingListAddProductsProps) => {
+    function deleteAvailableProduct(productId: string, shoppingListProduct: Models.Document) {
+        setProducts(products.filter(product => product.$id !== productId))
+        setShoppingList(prev => [shoppingListProduct, ...prev])
+    }
+
   return (
     <Modal animationType="slide" transparent={true} visible={modalVisible}>
-        <View className='p-4 bg-white rounded-lg shadow-md'>
+        <View className='p-4 bg-white rounded-lg shadow-md flex-1'>
             <Text className="heading2 text-center mb-8">Wybierz produkty</Text>
             <TouchableOpacity onPress={onClose} className='mb-8'>
                 <Text>
@@ -28,7 +35,7 @@ const ShoppingListAddProducts = ({ modalVisible, products, onClose }: ShoppingLi
                 data={products}
                 keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
-                    <AddProductCard key={item.$id} product={item} />
+                    <AddProductCard key={item.$id} product={item} deleteAvailableProduct={deleteAvailableProduct} />
                 )}
                 ListEmptyComponent={() => <EmptyList text='Brak dostępnych produktów' />}
                 className='mb-24'

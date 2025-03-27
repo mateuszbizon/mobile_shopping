@@ -40,8 +40,17 @@ const shoppingList = () => {
         </TouchableOpacity>
         <ShoppingListAddProducts 
             modalVisible={modalVisible} 
-            products={availableProducts} 
-            onClose={() => setModalVisible(false)} 
+            products={availableProducts}
+            setProducts={setAvailableProducts} 
+            onClose={() => setModalVisible(false)}
+            setShoppingList={setShoppingList} 
+        />
+        <FlatList
+            data={shoppingList}
+            keyExtractor={(item) => item.$id}
+            renderItem={({ item }) => (
+                <Text className='mb-6'>{item.products.name}, {item.quantity}</Text>
+            )}
         />
     </View>
   )
