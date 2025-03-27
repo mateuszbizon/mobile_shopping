@@ -1,8 +1,9 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Models } from 'react-native-appwrite'
+import { updateShoppingListProduct } from '@/services/shoppingListService'
 
 type ShoppingListProductCardProps = {
     product: Models.Document
@@ -21,6 +22,21 @@ const ShoppingListProductCard = ({ product }: ShoppingListProductCardProps) => {
         if (quantity <= 1) return
 
         setQuantity(prev => prev - 1)
+    }
+
+    async function handleUpdateShoppingListProduct() {
+        setIsSubmitting(true)
+        const updatedProduct = await updateShoppingListProduct(product.$id, quantity)
+
+        if (updatedProduct) {
+            console.log("Produkt zedytowany")
+            setQuantity(updatedProduct.quantity)
+            Alert.alert("Produkt zedytowany", "Produkt w liście zakupów został pomyślnie zedytowany")
+        } else {
+            Alert.alert("Błąd serwera", "Spróbuj ponownie później")
+        }
+
+        setIsSubmitting(false)
     }
 
   return (
@@ -46,7 +62,7 @@ const ShoppingListProductCard = ({ product }: ShoppingListProductCardProps) => {
                         <AntDesign name='minus' size={25} />
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity className='btn-primary'>
+                <TouchableOpacity className='btn-primary' onPress={handleUpdateShoppingListProduct}>
                     <Text className='btn-text'>{isSubmitting ? "Edytowanie..." : "Edytuj"}</Text>
                 </TouchableOpacity>
             </>

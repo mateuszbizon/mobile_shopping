@@ -28,3 +28,21 @@ export const addProductToShoppingList = async (userId: string, productId: string
         return null;
     }
 }
+
+export const updateShoppingListProduct = async (shoppingListId: string, newQuantity: number) => {
+    try {
+        const response = await database.updateDocument(
+            DATABASE_ID,
+            SHOPPING_LIST_ID,
+            shoppingListId,
+            {
+                quantity: newQuantity
+            }
+        );
+
+        return response;
+    } catch (error) {
+        console.error("Błąd podczas edycji produktu w liście zakupów:", error);
+        return null;
+    }
+}
