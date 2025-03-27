@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { getShoppingList } from '@/services/shoppingListService'
@@ -14,6 +14,7 @@ const shoppingList = () => {
     const [userProducts, setUserProducts] = useState<Models.Document[]>([]);
     const [availableProducts, setAvailableProducts] = useState<Models.Document[]>([]);
     const [modalVisible, setModalVisible] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         if (user) {
@@ -22,6 +23,7 @@ const shoppingList = () => {
     }, [user])
 
     const fetchData = async () => {
+        setIsLoading(true)
         const shoppingListData = await getShoppingList(user?.id!)
         const userProductsData = await getUserProducts(user?.id!)
 
@@ -32,6 +34,7 @@ const shoppingList = () => {
         setShoppingList(shoppingListData)
         setUserProducts(userProductsData)
         setAvailableProducts(availableProducts)
+        setIsLoading(false)
     }
 
   return (
@@ -47,14 +50,18 @@ const shoppingList = () => {
             onClose={() => setModalVisible(false)}
             setShoppingList={setShoppingList} 
         />
-        <FlatList
-            data={shoppingList}
-            keyExtractor={(item) => item.$id}
-            renderItem={({ item }) => (
-                <ShoppingListProductCard key={item.$id} product={item} />
-            )}
-            ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze produktów do listy zakupów' />}
-        />
+        {isLoading ? (
+            <ActivityIndicator size={"large"} />
+        ) : (
+            <FlatList
+                data={shoppingList}
+                keyExtractor={(item) => item.$id}
+                renderItem={({ item }) => (
+                    <ShoppingListProductCard key={item.$id} product={item} />
+                )}
+                ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze produktów do listy zakupów' />}
+            />
+        )}
     </View>
   )
 }
