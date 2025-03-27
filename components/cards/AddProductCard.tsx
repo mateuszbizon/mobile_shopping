@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { Models } from 'react-native-appwrite'
 import { MaterialIcons } from '@expo/vector-icons'
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 type AddProductCardProps = {
     product: Models.Document
@@ -30,7 +31,7 @@ const AddProductCard = ({ product }: AddProductCardProps) => {
             </TouchableOpacity>
             <Text className='text-2xl font-medium text-dark'>{quantity}</Text>
             <TouchableOpacity onPress={decreaseQuantity}>
-                <MaterialIcons name="add" size={25} />
+                <AntDesign name='minus' size={25} />
             </TouchableOpacity>
         </View>
         <TouchableOpacity className='btn-primary'>
