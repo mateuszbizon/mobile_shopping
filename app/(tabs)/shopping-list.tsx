@@ -1,7 +1,7 @@
-import { View, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, ActivityIndicator, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
-import { getShoppingList } from '@/services/shoppingListService'
+import { deleteShoppingListProduct, getShoppingList } from '@/services/shoppingListService'
 import { getUserProducts } from '@/services/productService'
 import { Models } from 'react-native-appwrite'
 import ShoppingListAddProducts from '@/components/ShoppingListAddProducts'
@@ -11,10 +11,11 @@ import ShoppingListProductCard from '@/components/cards/ShoppingListProductCard'
 const shoppingList = () => {
     const { user } = useAuth()
     const [shoppingList, setShoppingList] = useState<Models.Document[]>([]);
-    const [userProducts, setUserProducts] = useState<Models.Document[]>([]);
     const [availableProducts, setAvailableProducts] = useState<Models.Document[]>([]);
     const [modalVisible, setModalVisible] = useState(false)
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [selectedProduct, setSelectedProduct] = useState<Models.Document | null>(null)
 
     useEffect(() => {
         if (user) {
@@ -32,9 +33,26 @@ const shoppingList = () => {
         const availableProducts = userProductsData.filter(item => !shoppingListIds.includes(item.$id))
 
         setShoppingList(shoppingListData)
-        setUserProducts(userProductsData)
         setAvailableProducts(availableProducts)
         setIsLoading(false)
+    }
+
+    const confirmDeleteProduct = (product: Models.Document) => {
+        setSelectedProduct(product);
+        setDeleteModalVisible(true);
+    }
+
+    const handleDeleteProduct = async () => {
+        if (!selectedProduct) return;
+
+        const deletedCategory = await deleteShoppingListProduct(selectedProduct.$id);
+
+        if (deletedCategory) {
+            fetchData()
+        }
+
+        setDeleteModalVisible(false)
+
     }
 
   return (
@@ -57,11 +75,29 @@ const shoppingList = () => {
                 data={shoppingList}
                 keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
-                    <ShoppingListProductCard key={item.$id} product={item} />
+                    <ShoppingListProductCard key={item.$id} product={item} confirmDeleteProduct={confirmDeleteProduct} />
                 )}
                 ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze produktów do listy zakupów' />}
             />
         )}
+        <Modal visible={deleteModalVisible} transparent={true} animationType="slide">
+            <View className="flex-1 justify-center items-center bg-black/50">
+                <View className="bg-white p-6 rounded-lg w-80">
+                    <Text className="text-xl font-bold text-dark">Usuń produkt</Text>
+                    <Text className="text-gray-600 my-6 text-lg">
+                        Czy na pewno chcesz usunąć produkt "{selectedProduct?.products.name}" z listy zakupów?
+                    </Text>
+                    <View className="flex-row justify-center gap-3">
+                        <TouchableOpacity className='btn-primary' onPress={() => setDeleteModalVisible(false)}>
+                            <Text className='btn-text'>Anuluj</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity className='btn-delete' onPress={handleDeleteProduct}>
+                            <Text className='btn-text-white'>Usuń</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        </Modal>
     </View>
   )
 }

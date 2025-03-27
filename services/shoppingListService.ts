@@ -46,3 +46,14 @@ export const updateShoppingListProduct = async (shoppingListId: string, newQuant
         return null;
     }
 }
+
+export const deleteShoppingListProduct = async (shoppingListId: string) => {
+    try {
+        await database.deleteDocument(DATABASE_ID, SHOPPING_LIST_ID, shoppingListId);
+        
+        return true;
+    } catch (error) {
+        console.error("Błąd podczas usuwania produktu z listy zakupów:", error);
+        return false;
+    }
+}

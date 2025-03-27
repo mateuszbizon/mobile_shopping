@@ -38,7 +38,6 @@ const ShoppingListAddProducts = ({ modalVisible, products, onClose, setProducts,
                     <AddProductCard key={item.$id} product={item} deleteAvailableProduct={deleteAvailableProduct} />
                 )}
                 ListEmptyComponent={() => <EmptyList text='Brak dostępnych produktów' />}
-                className='mb-24'
             />
         </View>
     </Modal>

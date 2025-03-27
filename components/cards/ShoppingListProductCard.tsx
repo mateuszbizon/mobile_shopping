@@ -7,9 +7,10 @@ import { updateShoppingListProduct } from '@/services/shoppingListService'
 
 type ShoppingListProductCardProps = {
     product: Models.Document
+    confirmDeleteProduct: (product: Models.Document) => void
 }
 
-const ShoppingListProductCard = ({ product }: ShoppingListProductCardProps) => {
+const ShoppingListProductCard = ({ product, confirmDeleteProduct }: ShoppingListProductCardProps) => {
     const [quantity, setQuantity] = useState<number>(product.quantity)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [optionsShown, setOptionsShown] = useState(false)
@@ -47,7 +48,7 @@ const ShoppingListProductCard = ({ product }: ShoppingListProductCardProps) => {
             <TouchableOpacity onPress={() => setOptionsShown(prev => !prev)}>
                 <Text className='text-dark text-lg font-medium'>Edytuj</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => confirmDeleteProduct(product)}>
                 <Text className='text-red text-lg font-medium'>Usuń</Text>
             </TouchableOpacity>
         </View>
