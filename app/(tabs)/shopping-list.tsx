@@ -5,6 +5,8 @@ import { getShoppingList } from '@/services/shoppingListService'
 import { getUserProducts } from '@/services/productService'
 import { Models } from 'react-native-appwrite'
 import ShoppingListAddProducts from '@/components/ShoppingListAddProducts'
+import EmptyList from '@/components/EmptyList'
+import ShoppingListProductCard from '@/components/cards/ShoppingListProductCard'
 
 const shoppingList = () => {
     const { user } = useAuth()
@@ -49,8 +51,9 @@ const shoppingList = () => {
             data={shoppingList}
             keyExtractor={(item) => item.$id}
             renderItem={({ item }) => (
-                <Text className='mb-6'>{item.products.name}, {item.quantity}</Text>
+                <ShoppingListProductCard key={item.$id} product={item} />
             )}
+            ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze produktów do listy zakupów' />}
         />
     </View>
   )
