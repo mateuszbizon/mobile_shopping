@@ -40,6 +40,16 @@ const _layout = () => {
 					),
 				}}
 			/>
+			<Tabs.Screen
+				name='shopping-list'
+				options={{
+					headerShown: false,
+					title: "Lista",
+					tabBarIcon: ({ focused }) => (
+						<TabIcon focused={focused} title='Lista' icon={<MaterialIcons name="shopping-cart" size={15} />} />
+					),
+				}}
+			/>
 		</Tabs>
 	);
 };
