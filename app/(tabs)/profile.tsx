@@ -1,12 +1,11 @@
 import { View, Text, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { useRouter } from 'expo-router'
 
 const profile = () => {
     const { user, logout, isLoading } = useAuth()
     const router = useRouter()
-    const [isSubmitting, setIsSubmitting] = useState(false)
 
     if (!user) {
         router.replace("/sign-in")
