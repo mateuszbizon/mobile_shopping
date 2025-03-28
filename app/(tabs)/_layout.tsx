@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs } from "expo-router";
 import TabIcon from "@/components/TabIcon";
 import { MaterialIcons } from "@expo/vector-icons";
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const _layout = () => {
 	return (
@@ -47,6 +48,16 @@ const _layout = () => {
 					title: "Lista",
 					tabBarIcon: ({ focused }) => (
 						<TabIcon focused={focused} title='Lista' icon={<MaterialIcons name="shopping-cart" size={15} />} />
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='profile'
+				options={{
+					headerShown: false,
+					title: "Konto",
+					tabBarIcon: ({ focused }) => (
+						<TabIcon focused={focused} title='Konto' icon={<AntDesign name="user" size={15} />} />
 					),
 				}}
 			/>
