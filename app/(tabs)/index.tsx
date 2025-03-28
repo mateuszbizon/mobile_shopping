@@ -1,15 +1,17 @@
+import EmptyList from "@/components/EmptyList";
 import PageLoading from "@/components/PageLoading";
 import { useAuth } from "@/context/AuthContext";
 import { getShoppingList } from "@/services/shoppingListService";
+import { ShoppingList } from "@/types";
 import { Link, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { Models } from "react-native-appwrite";
 
 export default function Index() {
     const { user, isLoading: isUserLoading } = useAuth()
     const router = useRouter()
-    const [shoppingList, setShoppingList] = useState<Models.Document[]>([])
+    const [groupedList, setGroupedList] = useState<{ [key: string]: ShoppingList[] }>({})
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
@@ -20,10 +22,19 @@ export default function Index() {
 
     const fetchShoppingList = async () => {
         setIsLoading(true)
-        const data = await getShoppingList(user?.id!)
-        setShoppingList(data)
+        const data = await getShoppingList(user?.id!) as ShoppingList[]
+
+        const groupedList = data.reduce((acc, item) => {
+            const category = item.products.categories.name
+
+            acc[category] = acc[category] || []
+            acc[category].push(item)
+
+            return acc
+        }, {} as { [key: string]: ShoppingList[] })
+
+        setGroupedList(groupedList)
         setIsLoading(false)
-        console.log(data)
     }
 
     if (isUserLoading) {
@@ -37,13 +48,29 @@ export default function Index() {
 
   return (
     <View className="container">
-        <Link href="./sign-in" className="mb-10 p-5 bg-blue-500 text-white text-center mt-10">
-            <Text>Sign in</Text>
+        <Text className="heading1 text-center mb-8">Lista zakupów</Text>
+        <Link href={"/(tabs)/shopping-list"} className="btn-primary mb-8">
+            <Text className="btn-text">Edytuj listę zakupów</Text>
         </Link>
-        <Link href="./sign-up" className="mb-10 p-5 bg-blue-500 text-white text-center">
-            <Text>Sign up</Text>
-        </Link>
-        <Text>{user.email}</Text>
+        {isLoading ? (
+            <ActivityIndicator size={"large"} />
+        ) : (
+            <FlatList
+                data={Object.keys(groupedList)}
+                keyExtractor={(category) => category}
+                renderItem={({ item }) => (
+                    <View className="card mb-4">
+                        <Text className="heading2 mb-4">{item}</Text>
+                        {groupedList[item].map((product) => (
+                            <Text key={product.$id} className="text-xl font-medium text-dark mb-3">
+                                {product.products.name} x{product.quantity}
+                            </Text>
+                        ))}
+                    </View>
+                )}
+                ListEmptyComponent={() => <EmptyList text="Lista zakupów jest pusta" />}
+            />
+        )}
     </View>
   );
 }
