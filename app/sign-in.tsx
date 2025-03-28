@@ -5,27 +5,33 @@ import { loginSchema, LoginSchema } from '@/lib/validations/loginSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useRouter } from 'expo-router'
 import { account } from '@/lib/appwrite'
+import { useAuth } from '@/context/AuthContext'
 
 const signIn = () => {
     const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginSchema>({
-            defaultValues: {
-                email: "",
-                password: "",
-            },
-            resolver: zodResolver(loginSchema)
-        })
-        const router = useRouter()
-    
-        async function onSubmit(data: LoginSchema) {
-            try {
-                const result = await account.createEmailPasswordSession(data.email, data.password)
-                console.log(result)
-                router.push("/")
-            } catch (error) {
-                Alert.alert("Błąd", "Coś poszło nie tak. Spróbuj ponownie")
-                console.log(error)
-            }
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+        resolver: zodResolver(loginSchema)
+    })
+    const router = useRouter()
+    const { saveUser } = useAuth()
+
+    async function onSubmit(data: LoginSchema) {
+        try {
+            const result = await account.createEmailPasswordSession(data.email, data.password)
+            console.log(result)
+            saveUser({
+                id: result.userId,
+                email: data.email
+            })
+            router.push("/")
+        } catch (error) {
+            Alert.alert("Błąd", "Coś poszło nie tak. Spróbuj ponownie")
+            console.log(error)
         }
+    }
 
   return (
     <View className='flex-1 px-5 pt-8 bg-light'>
