@@ -1,9 +1,9 @@
 import { Client, Account, ID, Databases } from 'react-native-appwrite';
 
 const client = new Client()
-    .setProject(process.env.APP_WRITE_PROJECT_ID!)
-    .setPlatform(process.env.APP_WRITE_PLATFORM_ID!)
-    .setEndpoint(process.env.APP_WRITE_ENDPOINT!)
+    .setProject("67dd94cf001bbc163210")
+    .setPlatform("com.mateusz.mobile_shopping")
+    .setEndpoint("https://cloud.appwrite.io/v1")
 
 export const database = new Databases(client)
 export const account = new Account(client)

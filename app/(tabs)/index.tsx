@@ -4,13 +4,12 @@ import Refresh from "@/components/Refresh";
 import { useAuth } from "@/context/AuthContext";
 import { getShoppingList } from "@/services/shoppingListService";
 import { ShoppingList } from "@/types";
-import { Link, useRouter } from "expo-router";
+import { Link, Redirect } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
 
 export default function Index() {
     const { user, isLoading: isUserLoading } = useAuth()
-    const router = useRouter()
     const [groupedList, setGroupedList] = useState<{ [key: string]: ShoppingList[] }>({})
     const [isLoading, setIsLoading] = useState(false)
 
@@ -42,8 +41,7 @@ export default function Index() {
     }
 
     if (!user) {
-        router.replace('/sign-in');
-        return null;
+        return <Redirect href={"/sign-in"} />
     }
 
   return (
