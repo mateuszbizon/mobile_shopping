@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext'
 import ProductCard from '@/components/cards/ProductCard'
 import { Link } from 'expo-router'
 import EmptyList from '@/components/EmptyList'
+import Refresh from '@/components/Refresh'
 
 const products = () => {
     const { user } = useAuth()
@@ -52,6 +53,7 @@ const products = () => {
         <Link href={"/products/create"} className='btn-primary mb-8'>
             <Text className='btn-text'>Dodaj produkt</Text>
         </Link>
+        <Refresh refreshFn={fetchProducts} />
         {isLoading ? (
             <ActivityIndicator size={"large"} />
         ) : (

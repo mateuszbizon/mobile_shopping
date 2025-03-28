@@ -7,6 +7,7 @@ import { Models } from 'react-native-appwrite'
 import ShoppingListAddProducts from '@/components/ShoppingListAddProducts'
 import EmptyList from '@/components/EmptyList'
 import ShoppingListProductCard from '@/components/cards/ShoppingListProductCard'
+import Refresh from '@/components/Refresh'
 
 const shoppingList = () => {
     const { user } = useAuth()
@@ -61,6 +62,7 @@ const shoppingList = () => {
         <TouchableOpacity className='btn-primary mb-8' onPress={() => setModalVisible(true)}>
             <Text className='btn-text'>Dodaj do listy</Text>
         </TouchableOpacity>
+        <Refresh refreshFn={fetchData} />
         <ShoppingListAddProducts 
             modalVisible={modalVisible} 
             products={availableProducts}

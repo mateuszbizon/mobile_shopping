@@ -4,6 +4,7 @@
 
 :root {
     --primary: #FC9E4F;
+    --secondary: #4D587E;
     --dark: #402E32;
     --red: #C35256;
     --light: #FFF7EF;
@@ -36,6 +37,10 @@
 
     .btn-primary {
         @apply bg-primary py-4 px-8 rounded-lg disabled:opacity-50
+    }
+
+    .btn-secondary {
+        @apply bg-secondary py-4 px-8 rounded-lg disabled:opacity-50
     }
 
     .btn-delete {

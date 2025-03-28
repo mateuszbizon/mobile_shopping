@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext';
 import { deleteCategory, getUserCategories } from '@/services/categoryService';
 import { Models } from 'react-native-appwrite';
-import { Link, useRouter } from 'expo-router';
+import { Link } from 'expo-router';
 import CategoryCard from '@/components/cards/CategoryCard';
 import EmptyList from '@/components/EmptyList';
+import Refresh from '@/components/Refresh';
 
 const categories = () => {
     const { user } = useAuth();
@@ -52,6 +53,7 @@ const categories = () => {
         <Link href={"/categories/create"} className='btn-primary mb-8'>
             <Text className='btn-text'>Dodaj kategorię</Text>
         </Link>
+        <Refresh refreshFn={fetchCategories} />
         {isLoading ? (
             <ActivityIndicator size={"large"} />
         ) : (

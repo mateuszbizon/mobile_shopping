@@ -8,7 +8,8 @@ module.exports = {
                 dark: "var(--dark)",
                 primary: "var(--primary)",
                 red: "var(--red)",
-                light: "var(--light)"
+                light: "var(--light)",
+                secondary: "var(--secondary)"
             }
         },
 	},

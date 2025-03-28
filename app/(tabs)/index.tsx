@@ -1,12 +1,12 @@
 import EmptyList from "@/components/EmptyList";
 import PageLoading from "@/components/PageLoading";
+import Refresh from "@/components/Refresh";
 import { useAuth } from "@/context/AuthContext";
 import { getShoppingList } from "@/services/shoppingListService";
 import { ShoppingList } from "@/types";
 import { Link, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
-import { Models } from "react-native-appwrite";
 
 export default function Index() {
     const { user, isLoading: isUserLoading } = useAuth()
@@ -52,6 +52,7 @@ export default function Index() {
         <Link href={"/(tabs)/shopping-list"} className="btn-primary mb-8">
             <Text className="btn-text">Edytuj listę zakupów</Text>
         </Link>
+        <Refresh refreshFn={fetchShoppingList} />
         {isLoading ? (
             <ActivityIndicator size={"large"} />
         ) : (
