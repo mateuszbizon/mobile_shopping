@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useRouter } from 'expo-router'
 import { account } from '@/lib/appwrite'
 import { useAuth } from '@/context/AuthContext'
+import { AppwriteException } from 'react-native-appwrite'
 
 const signIn = () => {
     const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginSchema>({
@@ -28,8 +29,16 @@ const signIn = () => {
             })
             router.push("/")
         } catch (error) {
-            Alert.alert("Błąd", "Coś poszło nie tak. Spróbuj ponownie")
-            console.log(error)
+            console.error("Błąd podczas logowania:", error)
+
+            if (error instanceof AppwriteException) {
+                if (error.code == 401) {
+                    Alert.alert("Nieprawidłowe dane", "Adres email lub hasło są nieprawidłowe")
+                    return
+                }
+            }
+
+            Alert.alert("Błąd serwera", "Spróbuj ponownie później")
         }
     }
 
