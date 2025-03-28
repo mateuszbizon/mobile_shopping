@@ -5,7 +5,7 @@ import { registerSchema, ResgisterSchema } from '@/lib/validations/registerSchem
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useRouter } from 'expo-router';
 import { account } from '@/lib/appwrite';
-import { ID } from 'react-native-appwrite';
+import { AppwriteException, ID } from 'react-native-appwrite';
 
 const signUp = () => {
     const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm<ResgisterSchema>({
@@ -24,7 +24,16 @@ const signUp = () => {
             console.log(result)
             router.push("/sign-in")
         } catch (error) {
-            Alert.alert("Błąd", "Coś poszło nie tak. Spróbuj ponownie")
+            console.error("Błąd podczas logowania:", error)
+
+            if (error instanceof AppwriteException) {
+                if (error.code == 409) {
+                    Alert.alert("Użytkownik zajęty", "Użytkownik z podanym adresem email już istnieje")
+                    return
+                }
+            }
+
+            Alert.alert("Błąd serwera", "Spróbuj ponownie później")
         }
     }
 
