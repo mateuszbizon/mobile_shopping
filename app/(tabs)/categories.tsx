@@ -48,10 +48,10 @@ const categories = () => {
 
   return (
     <View className='container'>
+        <Text className="heading1 mb-8 text-center">Twoje kategorie</Text>
         <Link href={"/categories/create"} className='btn-primary mb-8'>
             <Text className='btn-text'>Dodaj kategorię</Text>
         </Link>
-        <Text className="heading1 mb-8">Twoje kategorie</Text>
         {isLoading ? (
             <ActivityIndicator size={"large"} />
         ) : (
