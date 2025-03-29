@@ -22,7 +22,7 @@ type ProductFormProps = {
 
 const ProductForm = ({ product }: ProductFormProps) => {
     const { user } = useAuth()
-    const { control, handleSubmit, formState: { errors, isSubmitting }, setValue, reset } = useForm<ProductSchema>({
+    const { control, handleSubmit, formState: { errors, isSubmitting }, setValue, resetField } = useForm<ProductSchema>({
         resolver: zodResolver(productSchema),
         defaultValues: {
             name: product ? product.name : ""
@@ -57,7 +57,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
             const createdProduct = await addProduct(user?.id!, data.name.toLowerCase(), data.categoryId)
 
             if (createdProduct) {
-                reset()
+                resetField("name")
             }
 
             return
