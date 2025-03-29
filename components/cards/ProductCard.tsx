@@ -14,7 +14,7 @@ const ProductCard = ({ item, confirmDeleteProduct }: ProductCardProps) => {
         <Text className="heading2 mb-4">{item.name}</Text>
         <Text className='text-xl font-medium mb-4 text-dark'>Kategoria: <Text className='font-normal'>{item.categories.name}</Text></Text>
         <View className='flex flex-row items-center justify-between'>
-            <Link href={`/categories/update/${item.$id}`}>
+            <Link href={`/products/update/${item.$id}`}>
                 <Text className='text-dark text-lg font-medium'>Edytuj</Text>
             </Link>
             <TouchableOpacity onPress={() => confirmDeleteProduct(item)}>
