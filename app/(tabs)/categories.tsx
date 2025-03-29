@@ -57,14 +57,17 @@ const categories = () => {
         {isLoading ? (
             <ActivityIndicator size={"large"} />
         ) : (
-            <FlatList
-                data={categories}
-                keyExtractor={(item) => item.$id}
-                renderItem={({ item }) => (
-                    <CategoryCard key={item.$id} item={item} confirmDeleteCategory={confirmDeleteCategory} />
-                )}
-                ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze żadnej kategorii' />}
-            />
+            <>
+                <Text className='heading2 mb-4'>{categories.length} kategorie</Text>
+                <FlatList
+                    data={categories}
+                    keyExtractor={(item) => item.$id}
+                    renderItem={({ item }) => (
+                        <CategoryCard key={item.$id} item={item} confirmDeleteCategory={confirmDeleteCategory} />
+                    )}
+                    ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze żadnej kategorii' />}
+                />
+            </>
         )}
         <Modal visible={modalVisible} transparent={true} animationType="slide">
             <View className="flex-1 justify-center items-center bg-black/50">

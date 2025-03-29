@@ -57,14 +57,17 @@ const products = () => {
         {isLoading ? (
             <ActivityIndicator size={"large"} />
         ) : (
-            <FlatList
-                data={products}
-                keyExtractor={(item) => item.$id}
-                renderItem={({ item }) => (
-                    <ProductCard key={item.$id} item={item} confirmDeleteProduct={confirmDeleteProduct} />
-                )}
-                ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze żadnego produktu' />}
-            />
+            <>
+                <Text className='heading2 mb-4'>{products.length} produktów</Text>
+                <FlatList
+                    data={products}
+                    keyExtractor={(item) => item.$id}
+                    renderItem={({ item }) => (
+                        <ProductCard key={item.$id} item={item} confirmDeleteProduct={confirmDeleteProduct} />
+                    )}
+                    ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze żadnego produktu' />}
+                />
+            </>
         )}
         <Modal visible={modalVisible} transparent={true} animationType="slide">
             <View className="flex-1 justify-center items-center bg-black/50">

@@ -73,14 +73,17 @@ const shoppingList = () => {
         {isLoading ? (
             <ActivityIndicator size={"large"} />
         ) : (
-            <FlatList
-                data={shoppingList}
-                keyExtractor={(item) => item.$id}
-                renderItem={({ item }) => (
-                    <ShoppingListProductCard key={item.$id} product={item} confirmDeleteProduct={confirmDeleteProduct} />
-                )}
-                ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze produktów do listy zakupów' />}
-            />
+            <>
+                <Text className='heading2 mb-4'>{shoppingList.length} produktów</Text>
+                <FlatList
+                    data={shoppingList}
+                    keyExtractor={(item) => item.$id}
+                    renderItem={({ item }) => (
+                        <ShoppingListProductCard key={item.$id} product={item} confirmDeleteProduct={confirmDeleteProduct} />
+                    )}
+                    ListEmptyComponent={() => <EmptyList text='Nie dodano jeszcze produktów do listy zakupów' />}
+                />
+            </>
         )}
         <Modal visible={deleteModalVisible} transparent={true} animationType="slide">
             <View className="flex-1 justify-center items-center bg-black/50">
