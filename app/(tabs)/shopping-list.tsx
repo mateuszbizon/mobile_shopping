@@ -89,7 +89,7 @@ const shoppingList = () => {
             <View className="flex-1 justify-center items-center bg-black/50">
                 <View className="bg-white p-6 rounded-lg w-80">
                     <Text className="text-xl font-bold text-dark">Usuń produkt</Text>
-                    <Text className="text-gray-600 my-6 text-lg">
+                    <Text className="text-gray-600 my-6 text-xl">
                         Czy na pewno chcesz usunąć produkt "{selectedProduct?.products.name}" z listy zakupów?
                     </Text>
                     <View className="flex-row justify-center gap-3">

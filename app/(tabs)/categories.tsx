@@ -73,7 +73,7 @@ const categories = () => {
             <View className="flex-1 justify-center items-center bg-black/50">
                 <View className="bg-white p-6 rounded-lg w-80">
                     <Text className="text-xl font-bold text-dark">Usuń kategorię</Text>
-                    <Text className="text-gray-600 my-6 text-lg">
+                    <Text className="text-gray-600 my-6 text-xl">
                         Czy na pewno chcesz usunąć kategorię "{selectedCategory?.name}"?
                     </Text>
                     <View className="flex-row justify-center gap-3">
