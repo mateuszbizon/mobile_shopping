@@ -5,6 +5,7 @@ export const getShoppingList = async (userId: string) => {
     try {
         const response = await database.listDocuments(DATABASE_ID, SHOPPING_LIST_ID, [
             Query.equal("userId", userId),
+            Query.limit(1000)
         ])
 
         return response.documents;

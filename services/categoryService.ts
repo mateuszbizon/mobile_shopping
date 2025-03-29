@@ -5,7 +5,8 @@ import { ID, Query } from "react-native-appwrite";
 export const getUserCategories = async (userId: string) => {
     try {
         const response = await database.listDocuments(DATABASE_ID, CATEGORIES_ID, [
-        Query.equal('userId', userId),
+            Query.equal('userId', userId),
+            Query.limit(100)
         ])
 
         return response.documents || [];

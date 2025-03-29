@@ -9,6 +9,7 @@ export const getUserProducts = async (userId: string) => {
             PRODUCTS_ID,
             [
                 Query.equal('userId', userId),
+                Query.limit(1000)
             ]
         )
 
