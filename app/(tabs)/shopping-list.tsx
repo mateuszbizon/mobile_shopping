@@ -8,10 +8,12 @@ import ShoppingListAddProducts from '@/components/ShoppingListAddProducts'
 import EmptyList from '@/components/EmptyList'
 import ShoppingListProductCard from '@/components/cards/ShoppingListProductCard'
 import Refresh from '@/components/Refresh'
+import SearchShoppingList from '@/components/SearchShoppingList'
 
 const shoppingList = () => {
     const { user } = useAuth()
     const [shoppingList, setShoppingList] = useState<Models.Document[]>([]);
+    const [searchedShoppingList, setSearchedShoppingList] = useState<Models.Document[]>([]);
     const [availableProducts, setAvailableProducts] = useState<Models.Document[]>([]);
     const [modalVisible, setModalVisible] = useState(false)
     const [deleteModalVisible, setDeleteModalVisible] = useState(false)
@@ -34,6 +36,7 @@ const shoppingList = () => {
         const availableProducts = userProductsData.filter(item => !shoppingListIds.includes(item.$id))
 
         setShoppingList(shoppingListData)
+        setSearchedShoppingList(shoppingListData)
         setAvailableProducts(availableProducts)
         setIsLoading(false)
     }
@@ -75,8 +78,9 @@ const shoppingList = () => {
         ) : (
             <>
                 <Text className='heading2 mb-4'>{shoppingList.length} produktów</Text>
+                <SearchShoppingList products={shoppingList} setSearchProducts={setSearchedShoppingList} />
                 <FlatList
-                    data={shoppingList}
+                    data={searchedShoppingList}
                     keyExtractor={(item) => item.$id}
                     renderItem={({ item }) => (
                         <ShoppingListProductCard key={item.$id} product={item} confirmDeleteProduct={confirmDeleteProduct} />
