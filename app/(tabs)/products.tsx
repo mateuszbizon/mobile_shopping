@@ -7,10 +7,12 @@ import ProductCard from '@/components/cards/ProductCard'
 import { Link } from 'expo-router'
 import EmptyList from '@/components/EmptyList'
 import Refresh from '@/components/Refresh'
+import SearchProducts from '@/components/SearchProducts'
 
 const products = () => {
     const { user } = useAuth()
     const [products, setProducts] = useState<Models.Document[]>([])
+    const [searchedProducts, setSearchedProducts] = useState<Models.Document[]>([])
     const [selectedProduct, setSelectedProduct] = useState<Models.Document | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [isLoading, setIsLoading] = useState(false)
@@ -25,6 +27,7 @@ const products = () => {
         setIsLoading(true)
         const products = await getUserProducts(user?.id!)
         setProducts(products)
+        setSearchedProducts(products)
         setIsLoading(false)
     }
 
@@ -59,8 +62,9 @@ const products = () => {
         ) : (
             <>
                 <Text className='heading2 mb-4'>{products.length} produktów</Text>
+                <SearchProducts products={products} setSearchProducts={setSearchedProducts} />
                 <FlatList
-                    data={products}
+                    data={searchedProducts}
                     keyExtractor={(item) => item.$id}
                     renderItem={({ item }) => (
                         <ProductCard key={item.$id} item={item} confirmDeleteProduct={confirmDeleteProduct} />
