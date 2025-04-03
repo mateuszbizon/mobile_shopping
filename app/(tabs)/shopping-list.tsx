@@ -9,6 +9,7 @@ import EmptyList from '@/components/EmptyList'
 import ShoppingListProductCard from '@/components/cards/ShoppingListProductCard'
 import Refresh from '@/components/Refresh'
 import SearchShoppingList from '@/components/SearchShoppingList'
+import ClearShoppingList from '@/components/ClearShoppingList'
 
 const shoppingList = () => {
     const { user } = useAuth()
@@ -79,6 +80,7 @@ const shoppingList = () => {
             <>
                 <Text className='heading2 mb-4'>{shoppingList.length} produktów</Text>
                 <SearchShoppingList products={shoppingList} setSearchProducts={setSearchedShoppingList} />
+                <ClearShoppingList shoppingList={shoppingList} fetchShoppingList={fetchData} />
                 <FlatList
                     data={searchedShoppingList}
                     keyExtractor={(item) => item.$id}

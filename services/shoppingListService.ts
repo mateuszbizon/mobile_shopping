@@ -58,3 +58,14 @@ export const deleteShoppingListProduct = async (shoppingListId: string) => {
         return false;
     }
 }
+
+export const deleteAllShoppingList = async (shoppingListIds: string[]) => {
+    try {
+        await Promise.all(shoppingListIds.map(productId => database.deleteDocument(DATABASE_ID, SHOPPING_LIST_ID, productId)))
+        
+        return true;
+    } catch (error) {
+        console.error("Błąd podczas usuwania wszystkich produktów listy zakupów:", error);
+        return false;
+    }
+}
