@@ -63,7 +63,7 @@ const shoppingList = () => {
   return (
     <View className='container'>
         <Text className='heading1 text-center mb-8'>Zmień listę zakupów</Text>
-        <TouchableOpacity className='btn-primary mb-8' onPress={() => setModalVisible(true)}>
+        <TouchableOpacity className='btn-primary mb-4' onPress={() => setModalVisible(true)}>
             <Text className='btn-text'>Dodaj do listy</Text>
         </TouchableOpacity>
         <Refresh refreshFn={fetchData} />
@@ -73,6 +73,7 @@ const shoppingList = () => {
             setProducts={setAvailableProducts} 
             onClose={() => setModalVisible(false)}
             setShoppingList={setShoppingList} 
+            setSearchedShoppingList={setSearchedShoppingList} 
         />
         {isLoading ? (
             <ActivityIndicator size={"large"} />

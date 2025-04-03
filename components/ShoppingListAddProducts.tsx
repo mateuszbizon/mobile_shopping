@@ -11,15 +11,17 @@ type ShoppingListAddProductsProps = {
     products: Models.Document[]
     setProducts: React.Dispatch<React.SetStateAction<Models.Document[]>>
     setShoppingList: React.Dispatch<React.SetStateAction<Models.Document[]>>
+    setSearchedShoppingList: React.Dispatch<React.SetStateAction<Models.Document[]>>
     onClose: () => void
 }
 
-const ShoppingListAddProducts = ({ modalVisible, products, onClose, setProducts, setShoppingList }: ShoppingListAddProductsProps) => {
+const ShoppingListAddProducts = ({ modalVisible, products, onClose, setProducts, setShoppingList, setSearchedShoppingList }: ShoppingListAddProductsProps) => {
 const [searchedProducts, setSearchedProducts] = useState<Models.Document[]>([])
 
     function deleteAvailableProduct(productId: string, shoppingListProduct: Models.Document) {
         setProducts(products.filter(product => product.$id !== productId))
         setShoppingList(prev => [shoppingListProduct, ...prev])
+        setSearchedShoppingList(prev => [shoppingListProduct, ...prev])
     }
 
     useEffect(() => {
