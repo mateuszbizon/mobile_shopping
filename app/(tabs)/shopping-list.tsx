@@ -63,10 +63,12 @@ const shoppingList = () => {
   return (
     <View className='container'>
         <Text className='heading1 text-center mb-8'>Zmień listę zakupów</Text>
-        <TouchableOpacity className='btn-primary mb-4' onPress={() => setModalVisible(true)}>
-            <Text className='btn-text'>Dodaj do listy</Text>
-        </TouchableOpacity>
-        <Refresh refreshFn={fetchData} />
+        <View className='heading-btns mb-6'>
+            <TouchableOpacity className='btn-primary' onPress={() => setModalVisible(true)}>
+                <Text className='btn-text'>Dodaj do listy</Text>
+            </TouchableOpacity>
+            <Refresh refreshFn={fetchData} />
+        </View>
         <ShoppingListAddProducts 
             modalVisible={modalVisible} 
             products={availableProducts}

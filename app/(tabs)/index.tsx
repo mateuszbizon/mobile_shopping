@@ -47,10 +47,12 @@ export default function Index() {
   return (
     <View className="container">
         <Text className="heading1 text-center mb-8">Lista zakupów</Text>
-        <Link href={"/(tabs)/shopping-list"} className="btn-primary mb-8">
-            <Text className="btn-text">Edytuj listę zakupów</Text>
-        </Link>
-        <Refresh refreshFn={fetchShoppingList} />
+        <View className="heading-btns mb-6">
+            <Link href={"/(tabs)/shopping-list"} className="btn-primary">
+                <Text className="btn-text">Edytuj listę zakupów</Text>
+            </Link>
+            <Refresh refreshFn={fetchShoppingList} />
+        </View>
         {isLoading ? (
             <ActivityIndicator size={"large"} />
         ) : (

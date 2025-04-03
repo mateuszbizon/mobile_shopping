@@ -50,10 +50,12 @@ const categories = () => {
   return (
     <View className='container'>
         <Text className="heading1 mb-8 text-center">Twoje kategorie</Text>
-        <Link href={"/categories/create"} className='btn-primary mb-8'>
-            <Text className='btn-text'>Dodaj kategorię</Text>
-        </Link>
-        <Refresh refreshFn={fetchCategories} />
+        <View className='heading-btns mb-6'>
+            <Link href={"/categories/create"} className='btn-primary'>
+                <Text className='btn-text'>Dodaj kategorię</Text>
+            </Link>
+            <Refresh refreshFn={fetchCategories} />
+        </View>
         {isLoading ? (
             <ActivityIndicator size={"large"} />
         ) : (

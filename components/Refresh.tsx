@@ -7,7 +7,7 @@ type RefreshProps = {
 
 const Refresh = ({ refreshFn }: RefreshProps) => {
   return (
-    <TouchableOpacity className="btn-secondary mb-8" onPress={refreshFn}>
+    <TouchableOpacity className="btn-secondary" onPress={refreshFn}>
         <Text className="btn-text-white">Odśwież</Text>
     </TouchableOpacity>
   )

@@ -53,10 +53,12 @@ const products = () => {
   return (
     <View className='container'>
         <Text className='heading1 mb-8 text-center'>Twoje produkty</Text>
-        <Link href={"/products/create"} className='btn-primary mb-8'>
-            <Text className='btn-text'>Dodaj produkt</Text>
-        </Link>
-        <Refresh refreshFn={fetchProducts} />
+        <View className='heading-btns mb-6'>
+            <Link href={"/products/create"} className='btn-primary'>
+                <Text className='btn-text'>Dodaj produkt</Text>
+            </Link>
+            <Refresh refreshFn={fetchProducts} />
+        </View>
         {isLoading ? (
             <ActivityIndicator size={"large"} />
         ) : (
